@@ -1,0 +1,466 @@
+﻿Legend:
+
+i = Identifier
+l = Label
+t = Literal
+e = null
+
+Productions:
+
+0   Z => S
+1   S => If E Then
+2   S => Else
+3   S => ElseIf
+4   S => EndIf
+5   S => For E To E
+6   S => For E To E Step E
+7   S => EndFor
+8   S => While E
+9   S => EndWhile
+10  S => Sub i
+11  S => EndSub
+12  S => Goto l
+13  S => i(A)
+14  S => i.i(A)
+15  S => i = E
+16  S => l
+17  E => E + T
+18  E => E - T
+19  E => E = T
+20  E => E <> T
+21  E => E <= T
+22  E => E >= T
+23  E => E > T
+24  E => E < T
+25  E => T
+26  T => T * F
+27  T => T / F
+28  T => F
+29  F => (E)
+30  F => t
+31  F => i
+32  A => EB | e
+33  B => ,C | e
+34  C => EB
+
+First/Follow Sets:
+
+First(S) = { If, Else, ElseIf, EndIf, For, EndFor, Step, While, EndWhile, Sub, EndSub, Goto, i, (, t, i, l }
+Follow(S) = { $ }
+
+First(R) = { Step }
+Follow(R) = { $ }
+
+First(E) = { (, i, t }
+Follow(E) = { Then, To, Step, +, -, =, <>, <=, >=, >, <, ), ,, $ }
+
+First(T) = { (, i, t }
+Follow(T) = { *, /, Then, To, Step, +, -, =, <>, <=, >=, >, <, ), ,, $ }
+
+First(F) = { (, i, t }
+Follow(F) = { *, /, Then, To, Step, +, -, =, <>, <=, >=, >, <, ), ,, $ }
+
+First(A) = { (, i, t }
+Follow(A) = { ) }
+
+First(B) = { , }
+Follow(B) = { ) }
+
+First(C) = { (, i, t }
+Follow(C) = { ) }
+
+States:
+0  V[e] =
+        [Z => .S]
+        [S => .If E Then],
+        [S => .Else],
+        [S => .ElseIf],
+        [S => .EndIf],
+        [S => .For E To E R],
+        [S => .EndFor],
+        [S => .While E],
+        [S => .EndWhile],
+        [S => .Sub i],
+        [S => .EndSub],
+        [S => .Goto l],
+        [S => .l],
+        [S => .i.i(A)],
+        [S => .i(A)],
+        [S => .i = E]
+
+1   V[S] =
+        [Z => S.]
+
+2   V[If] =
+        [S => If. E Then],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+3   V[Else] =
+        [S => Else.]
+
+4   V[ElseIf] =
+        [S => ElseIf.]
+
+5   V[EndIf] =
+        [S => EndIf.]
+
+6   V[For] =
+        [S => For. E To E R],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+7   V[EndFor] =
+        [S => EndFor.]
+
+8   V[While] =
+        [S => While. E],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+9   V[EndWhile] =
+        [S => EndWhile.]
+
+10  V[Sub] =
+        [S => Sub. i]
+
+11  V[EndSub] =
+        [S => EndSub.]
+
+12  V[Goto] =
+        [S => Goto. l]
+
+13  V[i] =
+        [S => i..i(A)],
+        [S => i.(A)],
+        [B => i. = E]
+
+14  V[B] =
+        [S => B.]
+
+15  V[If E] =
+        [S => If E. Then]
+        [E => E. + T],
+        [E => E. = T],
+        [E => E. - T],
+        [E => E. G T],
+        [G => .<>],
+        [G => .<=],
+        [G => .>=],
+        [G => .<],
+        [G => .>]
+
+16  V[T] =
+        [E => T.],
+        [T => T. * F],
+        [T => T. / F],
+
+17  V[F] =
+        [T => F.]
+
+18  V[(] =
+        [F => (.E)],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+19  V[t] =
+        [F => t.]
+
+20  V[i] =
+        [F => i.]
+
+21  V[For E] =
+        [S => For E. To E R],
+        [E => E. + T],
+        [E => E. - T],
+        [E => E. = T],
+        [E => E. G T],
+        [G => .<>],
+        [G => .<=],
+        [G => .>=],
+        [G => .<],
+        [G => .>]
+        
+22  V[While E] =
+        [S => While E.],
+        [E => E. + T],
+        [E => E. - T],
+        [E => E. = T],
+        [E => E. G T],
+        [G => .<>],
+        [G => .<=],
+        [G => .>=],
+        [G => .<],
+        [G => .>]
+
+23  V[Sub i] =
+        [S => Sub i.]
+
+24  V[Goto l] =
+        [S => Goto l.]
+
+25  V[i.] =
+        [S => i..i(A)]
+
+26  V[i(] =
+        [S => i(.A)],
+        [A => .E],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+27  V[i =] =
+        [B => i =. E]
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+28  V[If E Then] =
+        [S => If E Then.]
+
+29  V[E +] =
+        [E => E +. T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+30  V[E -] =
+        [E => E -. T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+31  V[E G] =
+        [E => E G. T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+32  V[<>] =
+        [G => <>.]
+
+33  V[>=] =
+        [G => >=.]
+
+34  V[T *] =
+        [T => T *. F],
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+35  V[T /] =
+        [T => T /. F],
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+36  V[(E] =
+        [F => (E.)],
+        [E => E. + T],
+        [E => E. - T],
+        [E => E. = T],
+        [E => E. G T],
+        [G => .<>],
+        [G => .<=],
+        [G => .>=],
+        [G => .<],
+        [G => .>]
+
+37  V[For E To] =
+        [S => For E To. E R],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+38  V[i.i] =
+        [S => i.i.(A)]
+
+39  V[i(A] =
+        [S => i(A.)]
+
+40  V[E] =
+        [A => E.],
+        [E => E. + T],
+        [E => E. - T],
+        [E => E. = T],
+        [E => E. G T],
+        [G => .<>],
+        [G => .<=],
+        [G => .>=],
+        [G => .<],
+        [G => .>]
+
+41  V[i = E] =
+        [B => i = E.]
+
+42  V[E + T] =
+        [E => E + T.],
+        [T => T. * F],
+        [T => T. / F]
+
+43  V[E - T] =
+        [E => E - T.],
+        [T => T. * F],
+        [T => T. / F]
+
+44  V[E G T] =
+        [E => E G T.],
+        [T => T. * F],
+        [T => T. / F]
+
+45  V[<] =
+        [G => <.]
+
+46  V[<=] =
+        [G => <=.]
+
+48  V[T * F] =
+        [T => T * F.]
+
+49  V[T / F] =
+        [T => T / F.]
+
+50  V[(E)] =
+        [F => (E).]
+
+51  V[E =] =
+        [E => E =. T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+52  V[For E To E] =
+        [S => For E To E. R],
+        [R => .Step E]
+
+53  V[i.i(] =
+        [S => i.i(.A)],
+        [S => i.i(.)],
+        [A => .E],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+54  V[i(A)] =
+        [S => i(A).]
+
+55  V[E] =
+        [A => E.]
+
+57  V[E = T] =
+        [E => E = T.]
+
+58  V[For E To E R] =
+        [S => For E To E R.]
+
+59  V[Step] =
+        [R => Step. E],
+        [E => .E + T],
+        [E => .E - T],
+        [E => .E = T],
+        [E => .E G T],
+        [E => .T],
+        [T => .T * F],
+        [T => .T / F],
+        [T => .F]
+        [F => .(E)],
+        [F => .t],
+        [F => .i]
+
+60  V[i.i(A] =
+        [S => i.i(A.)]
+
+61  V[,A] =
+        [C => ,A.]
+
+62  V[Step E] =
+        [R => Step E.]
+
+63  V[i.i(A)] =
+        [S => i.i(A).]
+
+64  V[>] =
+        [G => >.]
+
+65  V[l] =
+        [S => l.]

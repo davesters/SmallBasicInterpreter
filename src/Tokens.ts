@@ -1,0 +1,11 @@
+export var Identifier = 'id';
+export var NumberLiteral = 'num';
+export var Operator = 'op';
+export var StringLiteral = 'str';
+export var Label = 'lbl';
+export var Separator = 'sep';
+export var DecimalLiteral = 'dec';
+export var EndOfLine = 'eol';
+export var Keyword = 'kwd';
+export var Production = 'pro';
+export var Argument = 'arg';
